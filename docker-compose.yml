@@ -1,0 +1,14 @@
+version: '2'
+services:
+ nginx:
+  build: 
+        dockerfile: ./Dockerfile
+        context: .
+  container_name: nginx
+  image: nginx
+  ports:
+  - "80:80"
+  volumes:
+  - ./nginx-data/html:/usr/share/nginx/html
+  - ./mime.types:/etc/nginx/mime.types
+  - ./nginx-conf/:/etc/nginx/

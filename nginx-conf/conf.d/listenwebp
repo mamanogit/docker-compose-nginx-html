@@ -1,0 +1,22 @@
+set $ext_webp ".webp";
+if ($http_accept !~* "image/webp") {
+    set $ext_webp "";
+}
+
+location ~* ^.+\.(png|jpe?g)$ {
+    add_header Vary Accept;
+    if (-f $request_filename$ext_webp) {
+        rewrite ^(.*) $1$ext_webp last;
+    }
+}
+
+#location ~* ^(/wp-content/.+)\.(png|jpe?g)$ {
+#  set $base $1;
+#  set $webp_uri $base$ext_webp;
+#  set $webp_old_uri $base.$2$ext_webp;
+#  add_header Vary Accept;
+#  if ( !-f $request_filename$ext_webp ) {
+#    add_header X_WebP_SP_Miss $request_filename$ext_webp;
+#  }
+#  try_files $webp_uri $webp_old_uri $uri =404;
+#}
